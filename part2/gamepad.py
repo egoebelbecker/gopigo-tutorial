@@ -1,5 +1,18 @@
 #!/usr/bin/python
 
+###############################################################                                                                  
+# This is the first script in the tutorial at
+# (needs final link for next post)
+#
+# History
+# ------------------------------------------------
+# Author                Date      		Comments
+# Eric Goeelbecker      Jun 5 2015 		Initial Authoring
+# 			                                                         
+# These files have been made available online through a Creative Commons Attribution-ShareAlike 3.0  license.
+# (http://creativecommons.org/licenses/by-sa/3.0/)           
+#
+###############################################################
 from evdev import InputDevice, categorize, ecodes, KeyEvent
 from gopigo import *
 
@@ -29,7 +42,7 @@ for event in gamepad.read_loop():
             elif keyevent.keycode == 'BTN_X':
                 print "Left"
                 left()
-            elif keyevent.keycode == 'BTN_TR":
+            elif keyevent.keycode == 'BTN_TR':
                 print "Stop"
                 stop()
 

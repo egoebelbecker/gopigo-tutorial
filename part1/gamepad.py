@@ -1,5 +1,20 @@
 #!/usr/bin/python
 
+###############################################################                                                                  
+# This is the final script in the tutorial at
+# http://wp.me/p5kNk-2u
+#
+# History
+# ------------------------------------------------
+# Author                Date      		Comments
+# Eric Goeelbecker      Jun 5 2015 		Initial Authoring
+# 			                                                         
+# These files have been made available online through a Creative Commons Attribution-ShareAlike 3.0  license.
+# (http://creativecommons.org/licenses/by-sa/3.0/)           
+#
+###############################################################
+from select import select
+from evdev import InputDevice, categorize, ecodes
 from evdev import InputDevice, categorize, ecodes, KeyEvent
 gamepad = InputDevice('/dev/input/event0')
 
