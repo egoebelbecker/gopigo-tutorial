@@ -7,7 +7,7 @@
 # History
 # ------------------------------------------------
 # Author                Date      		Comments
-# Eric Goebelbecker      Jun 5 2015 		Initial Authoring
+# Eric Goebelbecker     Jun 6 2015 		Initial Authoring
 # 			                                                         
 # These files have been made available online through a Creative Commons Attribution-ShareAlike 3.0  license.
 # (http://creativecommons.org/licenses/by-sa/3.0/)           
