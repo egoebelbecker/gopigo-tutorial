@@ -13,7 +13,6 @@
 #
 ###############################################################
 from select import select
-from evdev import InputDevice, categorize, ecodes
 from evdev import InputDevice, categorize, ecodes, KeyEvent
 gamepad = InputDevice('/dev/input/event0')
 
