@@ -8,6 +8,7 @@
 # ------------------------------------------------
 # Author                Date      		Comments
 # Eric Goebelbecker     Jun 6 2015 		Initial Authoring
+# Eric Goebelbecker     Jun 11 2015 		Max speed is 255
 # 			                                                         
 # These files have been made available online through a Creative Commons Attribution-ShareAlike 3.0  license.
 # (http://creativecommons.org/licenses/by-sa/3.0/)           
@@ -18,7 +19,7 @@ from gopigo import *
 
 gamepad = InputDevice('/dev/input/event0')
 
-speed=100
+speed=50
 set_speed(speed)
 
 for event in gamepad.read_loop():
@@ -42,13 +43,13 @@ for event in gamepad.read_loop():
                 stop()
             elif keyevent.keycode == 'BTN_TR':
                 print "Faster"
-                speed += 50
-                if speed > 550:
-                    speed = 550
+                speed += 20
+                if speed > 255:
+                    speed = 255
                 set_speed(speed)
             elif keyevent.keycode == 'BTN_TL':
                 print "Slower"
-                speed -= 50
+                speed -= 20
                 if speed < 50:
                     speed = 50
                 set_speed(speed)
