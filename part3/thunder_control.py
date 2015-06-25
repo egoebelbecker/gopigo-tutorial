@@ -72,13 +72,12 @@ def __led(cmd):
 
 # Send command to move the office cannon
 def __move(cmd, duration_ms):
-    cmd(cmd)
+    __cmd(cmd)
     time.sleep(duration_ms / 1000.0)
-    cmd(STOP)
+    __cmd(STOP)
 
 
 def run_command(command, value):
-    command = command.lower()
     if command == RIGHT or command == LEFT or command == UP or command == DOWN:
         __move(command, value)
     elif command == PARK:
@@ -96,7 +95,7 @@ def run_command(command, value):
         # Stabilize prior to the shot, then allow for reload time after.
         time.sleep(0.5)
         for i in range(value):
-            send_cmd(FIRE)
+            __cmd(FIRE)
             time.sleep(4.5)
     else:
         print "Error: Unknown command: '%s'" % command
