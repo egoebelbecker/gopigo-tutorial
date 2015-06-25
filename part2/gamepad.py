@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-###############################################################                                                                  
+#
 # This is the first script in the tutorial at
 # http://wp.me/p5kNk-37
 #
@@ -12,7 +12,7 @@
 # These files have been made available online through a Creative Commons Attribution-ShareAlike 3.0  license.
 # (http://creativecommons.org/licenses/by-sa/3.0/)           
 #
-###############################################################
+#
 from evdev import InputDevice, categorize, ecodes, KeyEvent
 from gopigo import *
 
@@ -37,4 +37,3 @@ for event in gamepad.read_loop():
             elif keyevent.keycode == 'BTN_THUMBR' or keyevent.keycode == 'BTN_THUMBL':
                 print "Stop"
                 stop()
-

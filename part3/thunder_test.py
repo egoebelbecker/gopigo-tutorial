@@ -1,19 +1,19 @@
 #!/usr/bin/python
 
 import thunder_control as thunder
-import time
 from evdev import InputDevice, categorize, ecodes, KeyEvent
 import os
+from gopigo import *
 
 model_b_plus = True
 next_move = "down"
 event_time = 0
-
+speed = 100
 gamepad = InputDevice('/dev/input/event0')
 
 thunder.setup()
 
-#Enable USB to give supply upto 1.2A on model B+
+# Enable USB to give supply upto 1.2A on model B+
 if model_b_plus:
     os.system("gpio -g write 38 0")
     os.system("gpio -g mode 38 out")
@@ -80,11 +80,7 @@ try:
                         speed = 50
                     set_speed(speed)
 
-
-
 except KeyboardInterrupt:
-	#Disable hight current mode on USB before exiting
-	if model_b_plus:
-		os.system("gpio -g write 38 0")
-	
-
+    # Disable hight current mode on USB before exiting
+    if model_b_plus:
+        os.system("gpio -g write 38 0")

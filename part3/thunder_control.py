@@ -1,5 +1,6 @@
 #!/usr/bin/python
-########################################################################                                                                  
+
+#
 # This is a simple Python module for controlling the DreamCheeky Thunder Cannon.
 # This code borrows quite heavily from Dexter Industries example script at
 # https://github.com/DexterInd/GoPiGo/
@@ -7,32 +8,29 @@
 # These files have been made available online through a Creative Commons Attribution-ShareAlike 3.0  license.
 # (http://creativecommons.org/licenses/by-sa/3.0/)           
 #
-########################################################################
-
 
 import platform
 import time
-
 import usb.core
 import usb.util
 
-
 # Protocol command bytes
-DOWN    = 0x01
-UP      = 0x02
-LEFT    = 0x04
-RIGHT   = 0x08
-FIRE    = 0x10
-STOP    = 0x20
-PARK    = 0x30
-LED     = 0x31
+DOWN = 0x01
+UP = 0x02
+LEFT = 0x04
+RIGHT = 0x08
+FIRE = 0x10
+STOP = 0x20
+PARK = 0x30
+LED = 0x31
 
 DEVICE = None
 DEVICE_TYPE = None
 
+
 # Setup the Office Cannon
 def setup():
-    global DEVICE 
+    global DEVICE
     global DEVICE_TYPE
 
     DEVICE = usb.core.find(idVendor=0x2123, idProduct=0x1010)
@@ -51,29 +49,33 @@ def setup():
         try:
             DEVICE.detach_kernel_driver(0)
         except Exception, e:
-            pass # already unregistered
+            pass  # already unregistered
     DEVICE.set_configuration()
     print "Set up device!"
 
-#Send command to the office cannon
+
+# Send command to the office cannon
 def __cmd(cmd):
     if "Thunder" == DEVICE_TYPE:
-        DEVICE.ctrl_transfer(0x21, 0x09, 0, 0, [0x02, cmd, 0x00,0x00,0x00,0x00,0x00,0x00])
+        DEVICE.ctrl_transfer(0x21, 0x09, 0, 0, [0x02, cmd, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
     elif "Original" == DEVICE_TYPE:
         DEVICE.ctrl_transfer(0x21, 0x09, 0x0200, 0, [cmd])
 
-#Send command to control the LED on the office cannon
+
+# Send command to control the LED on the office cannon
 def __led(cmd):
     if "Thunder" == DEVICE_TYPE:
-        DEVICE.ctrl_transfer(0x21, 0x09, 0, 0, [0x03, cmd, 0x00,0x00,0x00,0x00,0x00,0x00])
+        DEVICE.ctrl_transfer(0x21, 0x09, 0, 0, [0x03, cmd, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
     elif "Original" == DEVICE_TYPE:
         print("There is no LED on this device")
 
-#Send command to move the office cannon
+
+# Send command to move the office cannon
 def __move(cmd, duration_ms):
     cmd(cmd)
     time.sleep(duration_ms / 1000.0)
     cmd(STOP)
+
 
 def run_command(command, value):
     command = command.lower()
@@ -98,5 +100,3 @@ def run_command(command, value):
             time.sleep(4.5)
     else:
         print "Error: Unknown command: '%s'" % command
-
-

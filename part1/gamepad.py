@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-###############################################################                                                                  
+#
 # This is the final script in the tutorial at
 # http://wp.me/p5kNk-2u
 #
@@ -13,7 +13,7 @@
 # These files have been made available online through a Creative Commons Attribution-ShareAlike 3.0  license.
 # (http://creativecommons.org/licenses/by-sa/3.0/)           
 #
-###############################################################
+#
 from select import select
 from evdev import InputDevice, categorize, ecodes
 from evdev import InputDevice, categorize, ecodes, KeyEvent
@@ -31,4 +31,3 @@ for event in gamepad.read_loop():
                 print "Right"
             elif keyevent.keycode == 'BTN_X':
                 print "Left"
-
