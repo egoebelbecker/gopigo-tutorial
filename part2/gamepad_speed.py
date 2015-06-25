@@ -2,7 +2,7 @@
 
 ###############################################################                                                                  
 # This is the first script in the tutorial at
-# (needs final link for next post)
+# http://wp.me/p5kNk-37
 #
 # History
 # ------------------------------------------------
