@@ -24,15 +24,14 @@ LEFT    = 0x04
 RIGHT   = 0x08
 FIRE    = 0x10
 STOP    = 0x20
+PARK    = 0x30
+LED     = 0x31
 
 DEVICE = None
 DEVICE_TYPE = None
 
-usb.PYUSB_DEBUG="debug"
-#usb.PYUSB_LOG_FILENAME="usb.log"
-
 # Setup the Office Cannon
-def setup_usb():
+def setup():
     global DEVICE 
     global DEVICE_TYPE
 
@@ -48,7 +47,6 @@ def setup_usb():
         DEVICE_TYPE = "Thunder"
 
     # On Linux we need to detach usb HID first
-
     if "Linux" == platform.system():
         try:
             DEVICE.detach_kernel_driver(0)
@@ -58,47 +56,39 @@ def setup_usb():
     print "Set up device!"
 
 #Send command to the office cannon
-def send_cmd(cmd):
+def __cmd(cmd):
     if "Thunder" == DEVICE_TYPE:
         DEVICE.ctrl_transfer(0x21, 0x09, 0, 0, [0x02, cmd, 0x00,0x00,0x00,0x00,0x00,0x00])
     elif "Original" == DEVICE_TYPE:
         DEVICE.ctrl_transfer(0x21, 0x09, 0x0200, 0, [cmd])
 
 #Send command to control the LED on the office cannon
-def led(cmd):
+def __led(cmd):
     if "Thunder" == DEVICE_TYPE:
         DEVICE.ctrl_transfer(0x21, 0x09, 0, 0, [0x03, cmd, 0x00,0x00,0x00,0x00,0x00,0x00])
     elif "Original" == DEVICE_TYPE:
         print("There is no LED on this device")
 
 #Send command to move the office cannon
-def send_move(cmd, duration_ms):
-    send_cmd(cmd)
+def __move(cmd, duration_ms):
+    cmd(cmd)
     time.sleep(duration_ms / 1000.0)
-    send_cmd(STOP)
+    cmd(STOP)
 
 def run_command(command, value):
     command = command.lower()
-    if command == "right":
-        send_move(RIGHT, value)
-    elif command == "left":
-        send_move(LEFT, value)
-    elif command == "up":
-        send_move(UP, value)
-    elif command == "down":
-        send_move(DOWN, value)
-    elif command == "zero" or command == "park" or command == "reset":
+    if command == RIGHT or command == LEFT or command == UP or command == DOWN:
+        __move(command, value)
+    elif command == PARK:
         # Move to bottom-left
-        send_move(DOWN, 2000)
-        send_move(LEFT, 8000)
-    elif command == "pause" or command == "sleep":
-        time.sleep(value / 1000.0)
-    elif command == "led":
+        __move(DOWN, 2000)
+        __move(LEFT, 8000)
+    elif command == LED:
         if value == 0:
-            led(0x00)
+            __led(0x00)
         else:
-            led(0x01)
-    elif command == "fire" or command == "shoot":
+            __led(0x01)
+    elif command == FIRE:
         if value < 1 or value > 4:
             value = 1
         # Stabilize prior to the shot, then allow for reload time after.
