@@ -24,49 +24,49 @@ STOP = 0x20
 PARK = 0x30
 LED = 0x31
 
-DEVICE = None
-DEVICE_TYPE = None
+dev = None
+dev_type = None
 
 
 # Setup the Office Cannon
 def setup():
-    global DEVICE
-    global DEVICE_TYPE
+    global dev
+    global dev_type
 
-    DEVICE = usb.core.find(idVendor=0x2123, idProduct=0x1010)
+    dev = usb.core.find(idVendor=0x2123, idProduct=0x1010)
 
-    if DEVICE is None:
-        DEVICE = usb.core.find(idVendor=0x0a81, idProduct=0x0701)
-        if DEVICE is None:
+    if dev is None:
+        dev = usb.core.find(idVendor=0x0a81, idProduct=0x0701)
+        if dev is None:
             raise ValueError('Missile device not found')
         else:
-            DEVICE_TYPE = "Original"
+            dev_type = "Original"
     else:
-        DEVICE_TYPE = "Thunder"
+        dev_type = "Thunder"
 
     # On Linux we need to detach usb HID first
     if "Linux" == platform.system():
         try:
-            DEVICE.detach_kernel_driver(0)
+            dev.detach_kernel_driver(0)
         except Exception, e:
             pass  # already unregistered
-    DEVICE.set_configuration()
+    dev.set_configuration()
     print "Set up device!"
 
 
 # Send command to the office cannon
 def __cmd(cmd):
-    if "Thunder" == DEVICE_TYPE:
-        DEVICE.ctrl_transfer(0x21, 0x09, 0, 0, [0x02, cmd, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
-    elif "Original" == DEVICE_TYPE:
-        DEVICE.ctrl_transfer(0x21, 0x09, 0x0200, 0, [cmd])
+    if "Thunder" == dev_type:
+        dev.ctrl_transfer(0x21, 0x09, 0, 0, [0x02, cmd, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
+    elif "Original" == dev_type:
+        dev.ctrl_transfer(0x21, 0x09, 0x0200, 0, [cmd])
 
 
 # Send command to control the LED on the office cannon
 def __led(cmd):
-    if "Thunder" == DEVICE_TYPE:
-        DEVICE.ctrl_transfer(0x21, 0x09, 0, 0, [0x03, cmd, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
-    elif "Original" == DEVICE_TYPE:
+    if "Thunder" == dev_type:
+        dev.ctrl_transfer(0x21, 0x09, 0, 0, [0x03, cmd, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
+    elif "Original" == dev_type:
         print("There is no LED on this device")
 
 
