@@ -90,12 +90,9 @@ def run_command(command, value):
         else:
             __led(0x01)
     elif command == FIRE:
-        if value < 1 or value > 4:
-            value = 1
         # Stabilize prior to the shot, then allow for reload time after.
         time.sleep(0.5)
-        for i in range(value):
-            __cmd(FIRE)
-            time.sleep(4.5)
+        __cmd(FIRE)
+        time.sleep(4.5)
     else:
         print "Error: Unknown command: '%s'" % command
